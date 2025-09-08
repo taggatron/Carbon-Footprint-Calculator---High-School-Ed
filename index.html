@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simple Carbon Calculator (for Students)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Simple Carbon Calculator</h1>
+    <p class="lead">A simplified carbon footprint quiz for high school students. Answer 10 questions to estimate your annual CO₂e emissions.</p>
+
+    <form id="calcForm" class="multi-step">
+      <!-- Step 1: Home energy / screen time -->
+      <fieldset class="step" data-step="1">
+        <h2>Home energy & screen time</h2>
+        <p class="small">Estimate how much electricity your home uses and how much time you spend on screens — we convert screen hours to kWh.</p>
+        <label>Electricity per year (kWh): <input type="number" id="electricity" min="0" value="2500" /></label>
+        <label>Hours TV per day: <input type="number" id="tv_hours" min="0" step="0.1" value="1" /></label>
+        <label>Hours on phone per day: <input type="number" id="phone_hours" min="0" step="0.1" value="3" /></label>
+        <div class="nav"><button type="button" class="next">Next →</button></div>
+      </fieldset>
+
+      <!-- Step 2: Heating & household -->
+      <fieldset class="step" data-step="2">
+        <h2>Heating & household</h2>
+        <label>Heating fuel (gas) per year (kWh): <input type="number" id="heating" min="0" value="6000" /></label>
+        <label>Household size (people): <input type="number" id="household" min="1" value="3" /></label>
+        <div class="nav"><button type="button" class="prev">← Back</button><button type="button" class="next">Next →</button></div>
+      </fieldset>
+
+      <!-- Step 3: Transport -->
+      <fieldset class="step" data-step="3">
+        <h2>Transport</h2>
+        <label>Car miles per week: <input type="number" id="car_miles" min="0" value="30" /></label>
+        <label>Car fuel type: 
+          <select id="car_type">
+            <option value="petrol">Petrol</option>
+            <option value="diesel">Diesel</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="electric">Electric</option>
+          </select>
+        </label>
+        <label>Flights per year (short-haul roundtrips): <input type="number" id="flights_short" min="0" value="1" /></label>
+        <label>Flights per year (long-haul roundtrips): <input type="number" id="flights_long" min="0" value="0" /></label>
+        <div class="nav"><button type="button" class="prev">← Back</button><button type="button" class="next">Next →</button></div>
+      </fieldset>
+
+      <!-- Step 4: Food & consumption -->
+      <fieldset class="step" data-step="4">
+        <h2>Food & stuff</h2>
+        <label>Diet: 
+          <select id="diet">
+            <option value="omnivore">Mostly omnivore</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="vegan">Vegan</option>
+          </select>
+        </label>
+        <label>Clothes & goods spending per year (USD): <input type="number" id="spending" min="0" value="800" /></label>
+        <div class="nav"><button type="button" class="prev">← Back</button><button type="button" class="next">Next →</button></div>
+      </fieldset>
+
+      <!-- Step 5: Recycling & finish -->
+      <fieldset class="step" data-step="5">
+        <h2>Waste & finish</h2>
+        <label>General recycling: 
+          <select id="recycle">
+            <option value="good">Yes, regularly</option>
+            <option value="some">Sometimes</option>
+            <option value="none">No</option>
+          </select>
+        </label>
+        <div class="nav"><button type="button" class="prev">← Back</button><button type="button" id="calcBtn">Calculate my footprint</button></div>
+      </fieldset>
+
+      <div class="progress" aria-hidden="true"></div>
+    </form>
+
+    <div id="results" class="results" aria-live="polite"></div>
+    <footer>
+      <p>Built for classroom use. Factors are simplified approximations (see README).</p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
