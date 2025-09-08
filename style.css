@@ -36,6 +36,27 @@ button.prev{background:transparent;color:var(--dark-green);border:1px solid var(
 
 .progress{height:8px;background:linear-gradient(90deg,var(--light-green) 0%,var(--mid-green) 100%);border-radius:8px;margin-top:12px}
 .results{margin-top:18px;padding:14px;background:linear-gradient(180deg,#ffffff,#f7fff7);border-radius:10px;box-shadow:0 10px 30px rgba(8,40,20,0.04)}
+.results .breakdown-dropdown {
+  margin-top: 12px;
+}
+.results .dropdown-toggle {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background: linear-gradient(180deg,#f7fff7,#f0fff2);
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--grey);
+}
+.results .dropdown-toggle h4 { margin: 0; font-size: 1rem }
+.results .dropdown-content { display:none; margin-top:8px; padding:10px; background: #fff; border-radius:8px; border:1px solid var(--grey)}
+.results .dropdown-content.show { display:block }
+
+/* Tree icons row */
+.trees-row { display:flex; align-items:center; gap:8px; margin-top:12px }
+.tree-icon { width:28px; height:28px; display:inline-block }
+.tree-count { font-weight:600; color:var(--dark-green); margin-left:6px }
 .breakdown{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
 .small{font-size:13px;color:var(--muted)}
 .category-badge{display:inline-block;padding:8px 12px;border-radius:999px;color:white;font-weight:700}

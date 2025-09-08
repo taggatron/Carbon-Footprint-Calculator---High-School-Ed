@@ -1,7 +1,8 @@
 // Simplified emission factors (approximate, per-year or per-unit as commented)
 const FACTORS = {
-  electricity_kwh: 0.000233, // tCO2e per kWh (0.233 kg/kWh)
-  heating_kwh: 0.000185, // tCO2e per kWh for natural gas heating
+  // Increased values to raise classroom default footprints (~10 t/person for defaults)
+  electricity_kwh: 0.0027727, // tCO2e per kWh (≈2.77 kg/kWh) - scaled from 0.000233
+  heating_kwh: 0.0022015, // tCO2e per kWh for natural gas heating (≈2.20 kg/kWh) - scaled from 0.000185
   car_petrol_per_mile: 0.000271,
   car_diesel_per_mile: 0.000300,
   car_hybrid_per_mile: 0.000180,
@@ -11,7 +12,8 @@ const FACTORS = {
   omnivore_diet: 2.5,
   vegetarian_diet: 1.7,
   vegan_diet: 1.2,
-  spending_per_usd: 0.0005,
+  // Spending factor now expressed per GBP (£)
+  spending_per_gbp: 0.0005,
   recycle_good_factor: -0.2,
   recycle_some_factor: -0.08,
 
@@ -168,7 +170,7 @@ function calculate() {
 
   // Food & goods
   const diet_em = ({omnivore:FACTORS.omnivore_diet,vegetarian:FACTORS.vegetarian_diet,vegan:FACTORS.vegan_diet})[diet];
-  const goods_em = spending * FACTORS.spending_per_usd;
+  const goods_em = spending * FACTORS.spending_per_gbp;
 
   // Recycling/waste per-person adjustment
   const recycle_adj = recycle === 'good' ? FACTORS.recycle_good_factor : (recycle === 'some' ? FACTORS.recycle_some_factor : 0);
@@ -213,15 +215,53 @@ document.getElementById('calcBtn').addEventListener('click', ()=>{
     <p class="breakdown small"><strong>Household total:</strong> <span>${formatT(out.household_total)}</span></p>`;
   results.appendChild(h);
 
-  const br = document.createElement('div');
-  br.innerHTML = '<h4>Category breakdown</h4>';
+  // Collapsible breakdown dropdown
+  const ddWrap = document.createElement('div');
+  ddWrap.className = 'breakdown-dropdown';
+  const toggle = document.createElement('div');
+  toggle.className = 'dropdown-toggle';
+  toggle.innerHTML = `<h4>Category breakdown</h4><div class="small">Show details ▾</div>`;
+  const content = document.createElement('div');
+  content.className = 'dropdown-content';
   Object.entries(out.breakdown).forEach(([k,v]) => {
     const row = document.createElement('div');
     row.className = 'breakdown';
+    row.style.display = 'flex';
+    row.style.justifyContent = 'space-between';
+    row.style.padding = '6px 0';
     row.innerHTML = `<div>${k}</div><div>${(v>=0?formatT(v):v.toFixed(2)+' tCO₂e')}</div>`;
-    br.appendChild(row);
+    content.appendChild(row);
   });
-  results.appendChild(br);
+  toggle.addEventListener('click', ()=>{
+    const shown = content.classList.toggle('show');
+    toggle.querySelector('.small').textContent = shown ? 'Hide details ▴' : 'Show details ▾';
+  });
+  ddWrap.appendChild(toggle);
+  ddWrap.appendChild(content);
+  results.appendChild(ddWrap);
+
+  // Trees needed to offset per-person emissions
+  // Assume one mature tree offsets ~0.02 tCO2e per year (20 kg/year) for classroom simplicity
+  const perPerson = out.per_person;
+  const treeAbsorb = 0.02; // tCO2e per tree per year
+  const treesNeeded = Math.max(0, Math.ceil(perPerson / treeAbsorb));
+  const treesRow = document.createElement('div');
+  treesRow.className = 'trees-row';
+  // Cap visual icons to 10 and show multiplier if more
+  const iconCap = 10;
+  const iconsToShow = Math.min(iconCap, treesNeeded);
+  for(let i=0;i<iconsToShow;i++){
+    const img = document.createElement('img');
+    img.src = './tree.svg';
+    img.className = 'tree-icon';
+    img.alt = 'tree';
+    treesRow.appendChild(img);
+  }
+  const label = document.createElement('div');
+  label.className = 'tree-count';
+  label.textContent = treesNeeded <= iconCap ? `${treesNeeded} tree(s) to offset per person` : `${iconsToShow} icons × ${Math.ceil(treesNeeded/iconsToShow)} = ${treesNeeded} trees to offset per person`;
+  treesRow.appendChild(label);
+  results.appendChild(treesRow);
 
   const note = document.createElement('p');
   note.className = 'small';
