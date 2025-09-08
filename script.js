@@ -107,6 +107,7 @@ function calculate() {
   const tv_hours = Number(getInput('tv_hours')) || 0;
   const phone_hours = Number(getInput('phone_hours')) || 0;
   const car_miles_week = Number(getInput('car_miles')) || 0;
+  const pt_days = Math.max(0, Math.min(7, Number(getInput('pt_days')) || 0));
   const car_type = getInput('car_type') || 'petrol';
   const flights_short = Number(getInput('flights_short')) || 0;
   const flights_long = Number(getInput('flights_long')) || 0;
@@ -135,7 +136,10 @@ function calculate() {
   const heat_em = heating * FACTORS.heating_kwh;
 
   // Transport
-  const car_miles_year = car_miles_week * 52;
+  // Assume each public-transport day replaces ~10 miles roundtrip by car
+  const replaced_miles_week = pt_days * 10;
+  const effective_car_miles_week = Math.max(0, car_miles_week - replaced_miles_week);
+  const car_miles_year = effective_car_miles_week * 52;
   const car_factor = {
     petrol: FACTORS.car_petrol_per_mile,
     diesel: FACTORS.car_diesel_per_mile,
