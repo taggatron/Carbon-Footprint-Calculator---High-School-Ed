@@ -39,4 +39,7 @@ button.prev{background:transparent;color:var(--dark-green);border:1px solid var(
 .badge-C{background:#4fb56a}
 .badge-D{background:#8fe0a3;color:#063d19}
 
+.category-svg{width:96px;height:96px;border-radius:12px;box-shadow:0 8px 22px rgba(6,61,25,0.12)}
+.category-label{font-weight:700;color:var(--dark-green);font-size:14px}
+
 @media (max-width:520px){.container{padding:12px}input,select{width:100%;display:block;margin-top:6px}}

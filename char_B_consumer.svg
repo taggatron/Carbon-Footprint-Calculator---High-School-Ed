@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="100%" height="100%" fill="#fbfff4" rx="16"/>
+  <g transform="translate(16,12)">
+    <!-- body -->
+    <rect x="54" y="80" width="60" height="70" rx="18" fill="#2e8b57" />
+    <!-- head -->
+    <circle cx="84" cy="52" r="28" fill="#ffe6cf" />
+    <!-- eyes -->
+    <circle cx="74" cy="52" r="4" fill="#083019" />
+    <circle cx="94" cy="52" r="4" fill="#083019" />
+    <!-- smile -->
+    <path d="M74 64 Q84 72 94 64" stroke="#07301a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- shopping bag left -->
+    <rect x="36" y="110" width="28" height="28" rx="4" fill="#9fd7a5"/>
+    <path d="M46 110 v-6 a6 6 0 0 1 12 0 v6" stroke="#063d19" stroke-width="2" fill="none"/>
+    <!-- shopping bag right -->
+    <rect x="136" y="110" width="28" height="28" rx="4" fill="#b7f0c9" transform="translate(-40,0)"/>
+    <path d="M146 110 v-6 a6 6 0 0 1 12 0 v6" stroke="#063d19" stroke-width="2" fill="none" transform="translate(-40,0)"/>
+  </g>
+</svg>

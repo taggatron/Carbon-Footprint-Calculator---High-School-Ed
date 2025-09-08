@@ -90,10 +90,19 @@ document.getElementById('calcBtn').addEventListener('click', ()=>{
   results.innerHTML = '';
 
   const h = document.createElement('div');
-  // Determine category badge
+  // Determine category and show SVG + short label
   const cat = categorize(out.per_person);
+  const svgMap = {
+    A: 'char_A_villain.svg',
+    B: 'char_B_consumer.svg',
+    C: 'char_C_friend.svg',
+    D: 'char_D_hero.svg'
+  };
+  const svgFile = svgMap[cat.id] || svgMap.D;
   h.innerHTML = `<h3>Your estimated annual footprint</h3>
-    <p class="breakdown"><strong>Per person:</strong> <span>${formatT(out.per_person)} <span class="category-badge badge-${cat.id}">${cat.label}</span></span></p>
+    <div class="breakdown"><div><strong>Per person:</strong> <span>${formatT(out.per_person)}</span></div>
+      <div style="display:flex;align-items:center;gap:12px"><img class="category-svg" src="./${svgFile}" alt="${cat.label}" /><div class="category-label">${cat.label}</div></div>
+    </div>
     <p class="breakdown small"><strong>Household total:</strong> <span>${formatT(out.household_total)}</span></p>`;
   results.appendChild(h);
 
