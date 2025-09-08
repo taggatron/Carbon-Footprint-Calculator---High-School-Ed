@@ -97,6 +97,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
     updateHeatingFromHousehold();
   }
 
+  // Coerce pt_days to 0..5 interactively so users who type a number >5 are clamped
+  const ptInput = document.getElementById('pt_days');
+  if(ptInput){
+    ptInput.addEventListener('input', ()=>{
+      let v = Number(ptInput.value) || 0;
+      if(v < 0) v = 0;
+      if(v > 5) v = 5;
+      if(Number(ptInput.value) !== v) ptInput.value = v;
+    });
+  }
+
   // initialize display immediately
   updateScreensAndElectricityUI();
 });
@@ -108,6 +119,12 @@ function calculate() {
   const phone_hours = Number(getInput('phone_hours')) || 0;
   const car_miles_week = Number(getInput('car_miles')) || 0;
   const pt_days = Math.max(0, Math.min(7, Number(getInput('pt_days')) || 0));
+  // enforce max 5 days/week for public transport
+  const clamped_pt_days = Math.min(5, Math.max(0, pt_days));
+  if (clamped_pt_days !== pt_days) {
+    // write back to input so the UI reflects the clamp
+    document.getElementById('pt_days').value = clamped_pt_days;
+  }
   const car_type = getInput('car_type') || 'petrol';
   const flights_short = Number(getInput('flights_short')) || 0;
   const flights_long = Number(getInput('flights_long')) || 0;
@@ -137,7 +154,7 @@ function calculate() {
 
   // Transport
   // Assume each public-transport day replaces ~10 miles roundtrip by car
-  const replaced_miles_week = pt_days * 10;
+  const replaced_miles_week = clamped_pt_days * 10;
   const effective_car_miles_week = Math.max(0, car_miles_week - replaced_miles_week);
   const car_miles_year = effective_car_miles_week * 52;
   const car_factor = {
