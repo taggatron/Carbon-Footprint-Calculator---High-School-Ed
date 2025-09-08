@@ -24,6 +24,59 @@ const FACTORS = {
 
 function getInput(id){return document.getElementById(id).value}
 
+// Baseline electricity (user-provided baseline excluding screens). We store it in-memory.
+let baselineElectricity = null;
+
+function updateScreensAndElectricityUI(){
+  const tv_hours = Number(getInput('tv_hours')) || 0;
+  const phone_hours = Number(getInput('phone_hours')) || 0;
+  const tv_kwh_year = (FACTORS.tv_watts/1000) * tv_hours * 365;
+  const phone_kwh_year = (FACTORS.phone_watts/1000) * phone_hours * 365;
+  const screens_kwh = +(tv_kwh_year + phone_kwh_year).toFixed(1);
+  document.getElementById('screens-kwh').textContent = screens_kwh;
+
+  const electricityInput = document.getElementById('electricity');
+  const currentElectricity = Number(electricityInput.value) || 0;
+
+  if(baselineElectricity === null){
+    // first time: set baseline as current minus screens
+    baselineElectricity = Math.max(0, currentElectricity - screens_kwh);
+  }
+
+  // If user manually edits electricity, update baseline accordingly
+  // We'll detect manual edits by listening to 'input' event below; here we compute desired value
+  const desired = Math.max(0, baselineElectricity + screens_kwh);
+  // Only update the input if the user hasn't just typed (avoid stomping caret) — check difference
+  if(Math.abs(currentElectricity - desired) > 0.5){
+    electricityInput.value = Math.round(desired);
+  }
+}
+
+// Listen for manual edits on electricity to update baseline
+document.addEventListener('DOMContentLoaded', ()=>{
+  const electricityInput = document.getElementById('electricity');
+  const tv = document.getElementById('tv_hours');
+  const phone = document.getElementById('phone_hours');
+
+  // Recompute when screen inputs change
+  [tv, phone].forEach(el=>el.addEventListener('input', ()=>{
+    updateScreensAndElectricityUI();
+  }));
+
+  // When electricity is manually edited, set baseline = electricity - screens_kwh
+  electricityInput.addEventListener('input', ()=>{
+    const tv_hours = Number(getInput('tv_hours')) || 0;
+    const phone_hours = Number(getInput('phone_hours')) || 0;
+    const tv_kwh_year = (FACTORS.tv_watts/1000) * tv_hours * 365;
+    const phone_kwh_year = (FACTORS.phone_watts/1000) * phone_hours * 365;
+    const screens_kwh = +(tv_kwh_year + phone_kwh_year).toFixed(1);
+    baselineElectricity = Math.max(0, (Number(electricityInput.value) || 0) - screens_kwh);
+  });
+
+  // initialize display immediately
+  updateScreensAndElectricityUI();
+});
+
 function calculate() {
   const electricity = Number(getInput('electricity')) || 0;
   const heating = Number(getInput('heating')) || 0;

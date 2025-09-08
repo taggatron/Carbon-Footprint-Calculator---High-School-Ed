@@ -18,6 +18,9 @@ form{background:var(--card);padding:22px;border-radius:14px;box-shadow:0 10px 30
 
 /* Multi-step form layout */
 .multi-step{position:relative}
+.step-header{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.icon-wrap{width:64px;height:64px;border-radius:12px;background:linear-gradient(180deg,#ffffff,#f2fff3);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(11,102,35,0.06);border:1px solid rgba(46,139,87,0.06)}
+.icon-wrap img{width:44px;height:44px}
 .step{border:0;padding:18px 6px;min-height:160px;display:none}
 .step.active{display:block;animation:fadeInUp .45s ease both}
 

@@ -14,9 +14,10 @@
     <form id="calcForm" class="multi-step">
       <!-- Step 1: Home energy / screen time -->
       <fieldset class="step" data-step="1">
-        <h2>Home energy & screen time</h2>
+        <div class="step-header"><div class="icon-wrap"><img src="icon_energy.svg" alt="Energy"/></div><h2>Home energy & screen time</h2></div>
         <p class="small">Estimate how much electricity your home uses and how much time you spend on screens — we convert screen hours to kWh.</p>
-        <label>Electricity per year (kWh): <input type="number" id="electricity" min="0" value="2500" /></label>
+  <label>Electricity per year (kWh): <input type="number" id="electricity" min="0" value="2500" /></label>
+  <div id="screens-breakdown" class="small">Estimated from screens: <span id="screens-kwh">0</span> kWh/year</div>
         <label>Hours TV per day: <input type="number" id="tv_hours" min="0" step="0.1" value="1" /></label>
         <label>Hours on phone per day: <input type="number" id="phone_hours" min="0" step="0.1" value="3" /></label>
         <div class="nav"><button type="button" class="next">Next →</button></div>
@@ -24,7 +25,7 @@
 
       <!-- Step 2: Heating & household -->
       <fieldset class="step" data-step="2">
-        <h2>Heating & household</h2>
+        <div class="step-header"><div class="icon-wrap"><img src="icon_heating.svg" alt="Heating"/></div><h2>Heating & household</h2></div>
         <label>Heating fuel (gas) per year (kWh): <input type="number" id="heating" min="0" value="6000" /></label>
         <label>Household size (people): <input type="number" id="household" min="1" value="3" /></label>
         <div class="nav"><button type="button" class="prev">← Back</button><button type="button" class="next">Next →</button></div>
@@ -32,7 +33,7 @@
 
       <!-- Step 3: Transport -->
       <fieldset class="step" data-step="3">
-        <h2>Transport</h2>
+        <div class="step-header"><div class="icon-wrap"><img src="icon_transport.svg" alt="Transport"/></div><h2>Transport</h2></div>
         <label>Car miles per week: <input type="number" id="car_miles" min="0" value="30" /></label>
         <label>Car fuel type: 
           <select id="car_type">
@@ -49,7 +50,7 @@
 
       <!-- Step 4: Food & consumption -->
       <fieldset class="step" data-step="4">
-        <h2>Food & stuff</h2>
+        <div class="step-header"><div class="icon-wrap"><img src="icon_food.svg" alt="Food"/></div><h2>Food & stuff</h2></div>
         <label>Diet: 
           <select id="diet">
             <option value="omnivore">Mostly omnivore</option>
@@ -63,7 +64,7 @@
 
       <!-- Step 5: Recycling & finish -->
       <fieldset class="step" data-step="5">
-        <h2>Waste & finish</h2>
+        <div class="step-header"><div class="icon-wrap"><img src="icon_waste.svg" alt="Waste"/></div><h2>Waste & finish</h2></div>
         <label>General recycling: 
           <select id="recycle">
             <option value="good">Yes, regularly</option>
