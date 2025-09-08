@@ -20,6 +20,7 @@ New in this update
 - Screen-time conversion: we now ask about TV and phone hours/day and convert them into kWh/year using rough power draw estimates (TV ≈ 80W, phone ≈ 6W) then feed into electricity emissions.
  - Solar panels option: you can now enter an estimated percent of your home's electricity that is offset by solar (0–100%). The calculator reduces grid electricity emissions proportionally to that percent.
  - Solar panels: a simple Yes/No checkbox is provided. If you select 'Yes' the calculator assumes a Medium system (~2,500 kWh/year) and subtracts that amount from household electricity before computing emissions.
+ - Solar panels: a simple Yes/No checkbox is provided. For classroom simplicity the calculator assumes a Medium system (~6,000 kWh/year) and subtracts that amount from household electricity before computing emissions.
 - Category badge: after calculation each student receives a badge:
 	- A: Climate Villain (>10 tCO₂e/year)
 	- B: Climate Consumer (5–10 tCO₂e/year)
@@ -34,6 +35,10 @@ Key factors (source-like approximations)
 - Diet: simplified annual footprints: omnivore 2.5 t, vegetarian 1.7 t, vegan 1.2 t (food only).
 - Consumer spending: 0.0005 tCO₂e per USD of spending (rough economy-wide intensity for goods/clothing).
 - Recycling: small negative adjustment per-person for good vs poor recycling.
+ - Consumer spending: 0.0005 tCO₂e per GBP (£) of spending (classroom intensity for goods/clothing).
+ - Recycling: modelled as energy (kWh) savings per person which are subtracted from household electricity before solar is applied. Classroom defaults:
+	 - Good recycling: 800 kWh/person/year
+	 - Some recycling: 300 kWh/person/year
 
 Limitations
 - This tool is intentionally simplified for classroom use. For personal decision-making or policy work, use a full-featured calculator with region-specific factors and more granular inputs.

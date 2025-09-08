@@ -196,7 +196,7 @@ function calculate() {
     'Waste & recycling (adj)': recycle_adj
   };
 
-  return {household_total,per_person,breakdown};
+  return {household_total,per_person,breakdown, recycle_kwh_total, solar_offset_kwh, total_electricity_kwh, net_electricity_kwh};
 }
 
 function formatT(t){return t.toFixed(2)+' tCO₂e'}
@@ -270,6 +270,13 @@ document.getElementById('calcBtn').addEventListener('click', ()=>{
   label.textContent = treesNeeded <= iconCap ? `${treesNeeded} tree(s) to offset per person` : `${iconsToShow} icons × ${Math.ceil(treesNeeded/iconsToShow)} = ${treesNeeded} trees to offset per person`;
   treesRow.appendChild(label);
   results.appendChild(treesRow);
+
+  // Show kWh reductions (recycling and solar) and net electricity for transparency
+  const reductions = document.createElement('div');
+  reductions.className = 'small';
+  reductions.style.marginTop = '10px';
+  reductions.innerHTML = `Recycling saved <strong>${out.recycle_kwh_total}</strong> kWh for your household. Solar offset: <strong>${out.solar_offset_kwh}</strong> kWh. Net electricity billed: <strong>${out.net_electricity_kwh}</strong> kWh.`;
+  results.appendChild(reductions);
 
   const note = document.createElement('p');
   note.className = 'small';
