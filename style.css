@@ -19,8 +19,9 @@ form{background:var(--card);padding:22px;border-radius:14px;box-shadow:0 10px 30
 /* Multi-step form layout */
 .multi-step{position:relative}
 .step-header{display:flex;align-items:center;gap:14px;margin-bottom:8px}
-.icon-wrap{width:64px;height:64px;border-radius:12px;background:linear-gradient(180deg,#ffffff,#f2fff3);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(11,102,35,0.06);border:1px solid rgba(46,139,87,0.06)}
-.icon-wrap img{width:44px;height:44px}
+.icon-wrap{width:64px;height:64px;border-radius:12px;background:linear-gradient(180deg,#ffffff,#f2fff3);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(11,102,35,0.06);border:1px solid rgba(46,139,87,0.06);position:relative}
+.emoji-icon{font-size:28px;line-height:1;filter:drop-shadow(0 6px 12px rgba(0,0,0,0.08));}
+
 .step{border:0;padding:18px 6px;min-height:160px;display:none}
 .step.active{display:block;animation:fadeInUp .45s ease both}
 
@@ -28,6 +29,7 @@ form{background:var(--card);padding:22px;border-radius:14px;box-shadow:0 10px 30
 
 label{display:block;margin:12px 0;color:var(--dark-green)}
 input,select{display:inline-block;margin-left:8px;padding:8px 10px;border-radius:10px;border:1px solid var(--grey);min-width:120px}
+.inline-icon{display:inline-block;width:28px;height:28px;border-radius:6px;background:#fff;padding:4px;text-align:center;margin-right:8px;box-shadow:0 6px 18px rgba(6,61,25,0.04)}
 .nav{margin-top:14px;display:flex;gap:8px;justify-content:flex-end}
 button{background:var(--mid-green);color:white;border:0;padding:10px 14px;border-radius:10px;cursor:pointer;box-shadow:0 6px 18px rgba(30,80,40,0.08)}
 button.prev{background:transparent;color:var(--dark-green);border:1px solid var(--grey)}

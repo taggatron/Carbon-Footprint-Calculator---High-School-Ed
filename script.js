@@ -57,11 +57,19 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const electricityInput = document.getElementById('electricity');
   const tv = document.getElementById('tv_hours');
   const phone = document.getElementById('phone_hours');
+  const solarSel = document.getElementById('solar_pct');
 
   // Recompute when screen inputs change
   [tv, phone].forEach(el=>el.addEventListener('input', ()=>{
     updateScreensAndElectricityUI();
   }));
+
+  // Recompute when solar percent changes (updates any UI derived from electricity)
+  if(solarSel){
+    solarSel.addEventListener('change', ()=>{
+      updateScreensAndElectricityUI();
+    });
+  }
 
   // When electricity is manually edited, set baseline = electricity - screens_kwh
   electricityInput.addEventListener('input', ()=>{
@@ -98,7 +106,19 @@ function calculate() {
   const phone_kwh_year = (FACTORS.phone_watts/1000) * phone_hours * 365;
   const screens_kwh = tv_kwh_year + phone_kwh_year;
 
-  const ele_em = (electricity + screens_kwh) * FACTORS.electricity_kwh;
+  // Apply solar offset: user provides estimated percent of household electricity offset by solar panels
+  const solar_pct = Number(getInput('solar_pct')) || 0; // 0-100
+
+  // The 'electricity' input represents the user's measured/estimated household electricity (kWh/year).
+  // We assume the electricity input already includes screens (it's the household meter). To avoid double-counting,
+  // we use only the 'electricity' input as the total household electricity demand.
+  const total_electricity_kwh = electricity;
+
+  // Solar generation reduces the grid-supplied electricity by the chosen percent.
+  const solar_generation_kwh = (solar_pct/100) * total_electricity_kwh;
+  const net_electricity_kwh = Math.max(0, total_electricity_kwh - solar_generation_kwh);
+
+  const ele_em = net_electricity_kwh * FACTORS.electricity_kwh;
   const heat_em = heating * FACTORS.heating_kwh;
 
   // Transport

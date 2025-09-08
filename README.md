@@ -18,6 +18,7 @@ New in this update
 - Multi-step single-question screens: only one question group is shown at a time with Next/Back navigation and subtle animations.
 - Styling: updated palette to dark green / light green / grey, modern rounded UI and progress bar.
 - Screen-time conversion: we now ask about TV and phone hours/day and convert them into kWh/year using rough power draw estimates (TV ≈ 80W, phone ≈ 6W) then feed into electricity emissions.
+ - Solar panels option: you can now enter an estimated percent of your home's electricity that is offset by solar (0–100%). The calculator reduces grid electricity emissions proportionally to that percent.
 - Category badge: after calculation each student receives a badge:
 	- A: Climate Villain (>10 tCO₂e/year)
 	- B: Climate Consumer (5–10 tCO₂e/year)
