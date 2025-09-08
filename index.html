@@ -26,16 +26,12 @@
       <!-- Step 2: Heating & household -->
       <fieldset class="step" data-step="2">
   <div class="step-header"><div class="icon-wrap"><span class="emoji-icon" aria-hidden="true">🔥</span></div><h2>Heating & household</h2></div>
-  <label><span class="inline-icon" aria-hidden="true">🔥</span> Heating fuel (gas) per year (kWh): <input type="number" id="heating" min="0" value="6000" /></label>
+  <label><span class="inline-icon" aria-hidden="true">🔥</span> Heating fuel (gas) per year (kWh) — calculated as <strong>3,000 kWh per person</strong>:
+    <input type="number" id="heating" min="0" value="9000" readonly aria-readonly="true" />
+  </label>
         <label>Household size (people): <input type="number" id="household" min="1" value="3" /></label>
-        <label><span class="inline-icon" aria-hidden="true">☀️</span> Estimated solar generation offset (% of home electricity per year):
-          <select id="solar_pct">
-            <option value="0">No solar (0%)</option>
-            <option value="25">Some (25%)</option>
-            <option value="50">Moderate (50%)</option>
-            <option value="75">High (75%)</option>
-            <option value="100">All (100%)</option>
-          </select>
+        <label><span class="inline-icon" aria-hidden="true">☀️</span> Solar panels:
+          <input type="checkbox" id="solar_yes" /> <span class="small">Yes — assume Medium system (~2,500 kWh/year)</span>
         </label>
         <div class="nav"><button type="button" class="prev">← Back</button><button type="button" class="next">Next →</button></div>
       </fieldset>

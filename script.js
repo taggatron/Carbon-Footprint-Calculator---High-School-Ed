@@ -57,16 +57,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const electricityInput = document.getElementById('electricity');
   const tv = document.getElementById('tv_hours');
   const phone = document.getElementById('phone_hours');
-  const solarSel = document.getElementById('solar_pct');
+  const solarCheckbox = document.getElementById('solar_yes');
+  const householdInput = document.getElementById('household');
+  const heatingInput = document.getElementById('heating');
 
   // Recompute when screen inputs change
   [tv, phone].forEach(el=>el.addEventListener('input', ()=>{
     updateScreensAndElectricityUI();
   }));
 
-  // Recompute when solar percent changes (updates any UI derived from electricity)
-  if(solarSel){
-    solarSel.addEventListener('change', ()=>{
+  // Recompute when solar checkbox changes (updates any UI derived from electricity)
+  if(solarCheckbox){
+    solarCheckbox.addEventListener('change', ()=>{
       updateScreensAndElectricityUI();
     });
   }
@@ -80,6 +82,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const screens_kwh = +(tv_kwh_year + phone_kwh_year).toFixed(1);
     baselineElectricity = Math.max(0, (Number(electricityInput.value) || 0) - screens_kwh);
   });
+
+  // Compute heating as 3,000 kWh per person and update readonly field when household changes
+  function updateHeatingFromHousehold(){
+    const people = Math.max(1, Number(householdInput.value) || 1);
+    const heating_kwh = people * 3000;
+    if(heatingInput){ heatingInput.value = heating_kwh; }
+  }
+  if(householdInput){
+    householdInput.addEventListener('input', ()=>{
+      updateHeatingFromHousehold();
+    });
+    // initialize heating value
+    updateHeatingFromHousehold();
+  }
 
   // initialize display immediately
   updateScreensAndElectricityUI();
@@ -106,17 +122,14 @@ function calculate() {
   const phone_kwh_year = (FACTORS.phone_watts/1000) * phone_hours * 365;
   const screens_kwh = tv_kwh_year + phone_kwh_year;
 
-  // Apply solar offset: user provides estimated percent of household electricity offset by solar panels
-  const solar_pct = Number(getInput('solar_pct')) || 0; // 0-100
+  // Apply solar offset: binary checkbox — if checked, assume Medium system ~2,500 kWh/year
+  const solar_checked = document.getElementById('solar_yes') && document.getElementById('solar_yes').checked;
+  const solar_offset_kwh = solar_checked ? 2500 : 0;
 
   // The 'electricity' input represents the user's measured/estimated household electricity (kWh/year).
-  // We assume the electricity input already includes screens (it's the household meter). To avoid double-counting,
-  // we use only the 'electricity' input as the total household electricity demand.
+  // Subtract the solar generation (kWh/year) to compute net grid-supplied electricity.
   const total_electricity_kwh = electricity;
-
-  // Solar generation reduces the grid-supplied electricity by the chosen percent.
-  const solar_generation_kwh = (solar_pct/100) * total_electricity_kwh;
-  const net_electricity_kwh = Math.max(0, total_electricity_kwh - solar_generation_kwh);
+  const net_electricity_kwh = Math.max(0, total_electricity_kwh - solar_offset_kwh);
 
   const ele_em = net_electricity_kwh * FACTORS.electricity_kwh;
   const heat_em = heating * FACTORS.heating_kwh;

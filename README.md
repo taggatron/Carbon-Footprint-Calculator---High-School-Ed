@@ -19,6 +19,7 @@ New in this update
 - Styling: updated palette to dark green / light green / grey, modern rounded UI and progress bar.
 - Screen-time conversion: we now ask about TV and phone hours/day and convert them into kWh/year using rough power draw estimates (TV ≈ 80W, phone ≈ 6W) then feed into electricity emissions.
  - Solar panels option: you can now enter an estimated percent of your home's electricity that is offset by solar (0–100%). The calculator reduces grid electricity emissions proportionally to that percent.
+ - Solar panels: a simple Yes/No checkbox is provided. If you select 'Yes' the calculator assumes a Medium system (~2,500 kWh/year) and subtracts that amount from household electricity before computing emissions.
 - Category badge: after calculation each student receives a badge:
 	- A: Climate Villain (>10 tCO₂e/year)
 	- B: Climate Consumer (5–10 tCO₂e/year)
