@@ -14,8 +14,14 @@ const FACTORS = {
   vegan_diet: 1.2,
   // Spending factor now expressed per GBP (£)
   spending_per_gbp: 0.0005,
-  recycle_good_factor: -0.2,
-  recycle_some_factor: -0.08,
+  // Recycling: we now model kWh saved per person per year (used to reduce household electricity)
+  recycle_kwh_good: 800, // kWh saved per person/year for good recycling behaviour (classroom assumption)
+  recycle_kwh_some: 300, // kWh saved per person/year for some recycling
+  // Keep tCO2e adjustments small (set to zero to avoid double-counting energy savings)
+  recycle_good_factor: 0,
+  recycle_some_factor: 0,
+  // Solar: medium system kWh generation per year (increased for classroom demonstration)
+  solar_medium_kwh: 6000,
 
   // Screen-time -> electricity conversions (estimates)
   // TVs: assume average TV power draw ~80W while on; phones ~6W while charging/active; these are rough
@@ -144,11 +150,13 @@ function calculate() {
 
   // Apply solar offset: binary checkbox — if checked, assume Medium system ~2,500 kWh/year
   const solar_checked = document.getElementById('solar_yes') && document.getElementById('solar_yes').checked;
-  const solar_offset_kwh = solar_checked ? 2500 : 0;
 
   // The 'electricity' input represents the user's measured/estimated household electricity (kWh/year).
-  // Subtract the solar generation (kWh/year) to compute net grid-supplied electricity.
-  const total_electricity_kwh = electricity;
+  // First subtract recycling-related energy savings (modelled per person), then subtract solar generation.
+  const recycle_kwh_per_person = recycle === 'good' ? FACTORS.recycle_kwh_good : (recycle === 'some' ? FACTORS.recycle_kwh_some : 0);
+  const recycle_kwh_total = recycle_kwh_per_person * household;
+  const total_electricity_kwh = Math.max(0, electricity - recycle_kwh_total);
+  const solar_offset_kwh = solar_checked ? FACTORS.solar_medium_kwh : 0;
   const net_electricity_kwh = Math.max(0, total_electricity_kwh - solar_offset_kwh);
 
   const ele_em = net_electricity_kwh * FACTORS.electricity_kwh;
