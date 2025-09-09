@@ -13,6 +13,7 @@
 body{margin:0;background:linear-gradient(180deg,var(--bg),#eef6ef);color:#0b2d18}
 .container{max-width:760px;margin:30px auto;padding:20px}
 h1{margin:0 0 6px;color:var(--dark-green)}
+.title-icon{width:42px;height:42px;vertical-align:middle;margin-right:10px;display:inline-block}
 .lead{color:var(--muted);margin:0 0 18px}
 form{background:var(--card);padding:22px;border-radius:14px;box-shadow:0 10px 30px rgba(8,40,20,0.06);overflow:hidden}
 
