@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simple Carbon Calculator (for Students)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>Simple Carbon Calculator</h1>
+    <p class="lead">A simplified carbon footprint quiz for high school students. Answer 10 questions to estimate your annual CO₂e emissions.</p>
+
+    <form id="calcForm" class="multi-step">
+      <!-- Step 1: Home energy / screen time -->
+      <fieldset class="step active" data-step="1">
+  <div class="step-header"><div class="icon-wrap"><span class="emoji-icon" aria-hidden="true">⚡</span></div><h2>Home energy &amp; screen time</h2></div>
+        <p class="small">Estimate how much electricity your home uses and how much time you spend on screens — we convert screen hours to kWh.</p>
+  <label><span class="inline-icon" aria-hidden="true">⚡</span> Electricity per year (kWh): <input type="number" id="electricity" min="0" value="2500"></label>
+  <div id="screens-breakdown" class="small">Estimated from screens: <span id="screens-kwh">35.8</span> kWh/year</div>
+  <label><span class="inline-icon" aria-hidden="true">📺</span> Hours TV per day: <input type="number" id="tv_hours" min="0" step="0.1" value="1"></label>
+  <label><span class="inline-icon" aria-hidden="true">📱</span> Hours on phone per day: <input type="number" id="phone_hours" min="0" step="0.1" value="3"></label>
+        <div class="nav"><button type="button" class="next">Next →</button></div>
+      </fieldset>
+
+      <!-- Step 2: Heating & household -->
+      <fieldset class="step" data-step="2">
+  <div class="step-header"><div class="icon-wrap"><span class="emoji-icon" aria-hidden="true">🔥</span></div><h2>Heating &amp; household</h2></div>
+  <label><span class="inline-icon" aria-hidden="true">🔥</span> Heating fuel (gas) per year (kWh) — calculated as <strong>3,000 kWh per person</strong>:
+    <input type="number" id="heating" min="0" value="9000" readonly="" aria-readonly="true">
+  </label>
+        <label>Household size (people): <input type="number" id="household" min="1" value="3"></label>
+        <label><span class="inline-icon" aria-hidden="true">☀️</span> Solar panels:
+          <input type="checkbox" id="solar_yes"> <span class="small">Yes — assume Medium system (~2,500 kWh/year)</span>
+        </label>
+        <div class="nav"><button type="button" class="prev">← Back</button><button type="button" class="next">Next →</button></div>
+      </fieldset>
+
+      <!-- Step 3: Transport -->
+      <fieldset class="step" data-step="3">
+  <div class="step-header"><div class="icon-wrap"><span class="emoji-icon" aria-hidden="true">🚗</span></div><h2>Transport</h2></div>
+  <label><span class="inline-icon" aria-hidden="true">🚗</span> Car miles per week: <input type="number" id="car_miles" min="0" value="30"></label>
+  <label><span class="inline-icon" aria-hidden="true">🚌</span> Public transport to college — days per week: <input type="number" id="pt_days" min="0" max="5" value="0"></label>
+  <label><span class="inline-icon" aria-hidden="true">⛽</span> Car fuel type: 
+          <select id="car_type">
+            <option value="petrol">Petrol</option>
+            <option value="diesel">Diesel</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="electric">Electric</option>
+          </select>
+        </label>
+  <label><span class="inline-icon" aria-hidden="true">✈️</span> Flights per year (short-haul roundtrips): <input type="number" id="flights_short" min="0" value="1"></label>
+  <label><span class="inline-icon" aria-hidden="true">✈️</span> Flights per year (long-haul roundtrips): <input type="number" id="flights_long" min="0" value="0"></label>
+        <div class="nav"><button type="button" class="prev">← Back</button><button type="button" class="next">Next →</button></div>
+      </fieldset>
+
+      <!-- Step 4: Food & consumption -->
+      <fieldset class="step" data-step="4">
+  <div class="step-header"><div class="icon-wrap"><span class="emoji-icon" aria-hidden="true">🥗</span></div><h2>Food &amp; stuff</h2></div>
+  <label><span class="inline-icon" aria-hidden="true">🍽️</span> Diet: 
+          <select id="diet">
+            <option value="omnivore">Mostly omnivore</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="vegan">Vegan</option>
+          </select>
+        </label>
+  <label><span class="inline-icon" aria-hidden="true">🛍️</span> Clothes &amp; goods spending per year (£): <input type="number" id="spending" min="0" value="800"></label>
+        <div class="nav"><button type="button" class="prev">← Back</button><button type="button" class="next">Next →</button></div>
+      </fieldset>
+
+      <!-- Step 5: Recycling & finish -->
+      <fieldset class="step" data-step="5">
+  <div class="step-header"><div class="icon-wrap"><span class="emoji-icon" aria-hidden="true">♻️</span></div><h2>Waste &amp; finish</h2></div>
+  <label><span class="inline-icon" aria-hidden="true">♻️</span> General recycling: 
+          <select id="recycle">
+            <option value="good">Yes, regularly</option>
+            <option value="some">Sometimes</option>
+            <option value="none">No</option>
+          </select>
+        </label>
+        <div class="nav"><button type="button" class="prev">← Back</button><button type="button" id="calcBtn">Calculate my footprint</button></div>
+      </fieldset>
+
+      <div class="progress" aria-hidden="true" style="width: 20%;"></div>
+    </form>
+
+    <div id="results" class="results" aria-live="polite"><div><h3>Your estimated annual footprint</h3>
+    <div class="breakdown"><div><strong>Per person:</strong> <span>7.85 tCO₂e</span></div>
+      <div style="display:flex;align-items:center;gap:12px"><img class="category-svg" src="./char_B_consumer.svg" alt="Climate Consumer (5-10t)"><div class="category-label">Climate Consumer (5-10t)</div></div>
+    </div>
+    <p class="breakdown small"><strong>Household total:</strong> <span>23.56 tCO₂e</span></p></div><div class="breakdown-dropdown"><div class="dropdown-toggle"><h4>Category breakdown</h4><div class="small">Show details ▾</div></div><div class="dropdown-content"><div class="breakdown" style="display: flex; justify-content: space-between; padding: 6px 0px;"><div>Home energy</div><div>20.09 tCO₂e</div></div><div class="breakdown" style="display: flex; justify-content: space-between; padding: 6px 0px;"><div>Transport</div><div>0.57 tCO₂e</div></div><div class="breakdown" style="display: flex; justify-content: space-between; padding: 6px 0px;"><div>Food</div><div>2.50 tCO₂e</div></div><div class="breakdown" style="display: flex; justify-content: space-between; padding: 6px 0px;"><div>Goods &amp; services</div><div>0.40 tCO₂e</div></div><div class="breakdown" style="display: flex; justify-content: space-between; padding: 6px 0px;"><div>Waste &amp; recycling (adj)</div><div>0.00 tCO₂e</div></div></div></div><div class="trees-row"><img src="./tree.svg" class="tree-icon" alt="tree"><img src="./tree.svg" class="tree-icon" alt="tree"><img src="./tree.svg" class="tree-icon" alt="tree"><img src="./tree.svg" class="tree-icon" alt="tree"><img src="./tree.svg" class="tree-icon" alt="tree"><img src="./tree.svg" class="tree-icon" alt="tree"><img src="./tree.svg" class="tree-icon" alt="tree"><img src="./tree.svg" class="tree-icon" alt="tree"><img src="./tree.svg" class="tree-icon" alt="tree"><img src="./tree.svg" class="tree-icon" alt="tree"><div class="tree-count">10 icons × 40 = 393 trees to offset per person</div></div><p class="small">Recycling reduced household electricity by 2400 kWh; solar generation reduced household electricity by 0 kWh; net household electricity used: 100 kWh.</p><p class="small">Note: This is a simplified classroom estimate. See README for assumptions and sources.</p></div>
+    <footer>
+      <p>Built for classroom use. Factors are simplified approximations (see README).</p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+
+
+</body></html>
