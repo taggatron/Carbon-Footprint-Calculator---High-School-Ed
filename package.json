@@ -1,0 +1,24 @@
+{
+  "name": "carbon-calculator",
+  "version": "1.0.0",
+  "description": "This is a small, single-page carbon footprint calculator designed for high school students. It reduces the number of questions to 10 while covering the main categories shown in the provided `Carbon footprint catergories.png`.",
+  "main": "screenshot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taggatron/Carbon-Footprint-Calculator---High-School-Ed.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/taggatron/Carbon-Footprint-Calculator---High-School-Ed/issues"
+  },
+  "homepage": "https://github.com/taggatron/Carbon-Footprint-Calculator---High-School-Ed#readme",
+  "dependencies": {
+    "puppeteer": "^24.19.0"
+  }
+}

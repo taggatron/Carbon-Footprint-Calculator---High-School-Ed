@@ -271,12 +271,11 @@ document.getElementById('calcBtn').addEventListener('click', ()=>{
   treesRow.appendChild(label);
   results.appendChild(treesRow);
 
-  // Show kWh reductions (recycling and solar) and net electricity for transparency
-  const reductions = document.createElement('div');
-  reductions.className = 'small';
-  reductions.style.marginTop = '10px';
-  reductions.innerHTML = `Recycling saved <strong>${out.recycle_kwh_total}</strong> kWh for your household. Solar offset: <strong>${out.solar_offset_kwh}</strong> kWh. Net electricity billed: <strong>${out.net_electricity_kwh}</strong> kWh.`;
-  results.appendChild(reductions);
+  // Show kWh reduction summary (recycling and solar)
+  const summary = document.createElement('p');
+  summary.className = 'small';
+  summary.textContent = `Recycling reduced household electricity by ${out.recycle_kwh_total} kWh; solar generation reduced household electricity by ${out.solar_offset_kwh} kWh; net household electricity used: ${out.net_electricity_kwh} kWh.`;
+  results.appendChild(summary);
 
   const note = document.createElement('p');
   note.className = 'small';
